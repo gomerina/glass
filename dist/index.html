@@ -4,30 +4,28 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dynamic Liquid Glass</title>
 	<link rel="stylesheet" href="css/style.css">
-	<title>Document</title>
 </head>
 
 <body>
-	<svg width="0" height="0" style="position: absolute;">
+	<div class="glass js-liquid">
+		<span>SOS</span>
+	</div>
+	<canvas id="lens"></canvas>
+	<canvas id="noise"></canvas>
+	<svg width="0" height="0">
 		<defs>
-			<filter id="displacementFilter" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
-				<feTurbulence type="fractalNoise" baseFrequency="0.004 0.009" numOctaves="1" seed="17" result="turbulence"></feTurbulence>
-				<feComponentTransfer in="turbulence" result="mapped">
-					<feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5"></feFuncR>
-					<feFuncG type="gamma" amplitude="0" exponent="1" offset="0"></feFuncG>
-					<feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5"></feFuncB>
-				</feComponentTransfer>
-				<feGaussianBlur in="turbulence" stdDeviation="3" result="softMap"></feGaussianBlur>
-				<feSpecularLighting in="softMap" surfaceScale="5" specularConstant="11" specularExponent="100" lighting-color="white" result="specLight">
-					<fePointLight x="-200" y="-200" z="300"></fePointLight>
-				</feSpecularLighting>
-				<feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage"></feComposite>
-				<feDisplacementMap in="SourceGraphic" in2="softMap" scale="200" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+			<filter id="liquidGlass" x="-30%" y="-30%" width="160%" height="160%">
+				<feImage id="lensMap" result="lensMap"></feImage>
+				<feImage id="noiseMap" result="noiseMap"></feImage>
+				<feGaussianBlur in="noiseMap" stdDeviation="2" result="softNoise"></feGaussianBlur>
+				<feDisplacementMap in="SourceGraphic" in2="lensMap" scale="60" xChannelSelector="R" yChannelSelector="G" result="lensDistort1"></feDisplacementMap>
+				<feDisplacementMap in="lensDistort1" in2="softNoise" scale="12" xChannelSelector="R" yChannelSelector="G" result="finalDistort"></feDisplacementMap>
 			</filter>
 		</defs>
 	</svg>
-	<div class="glass">Text</div>
+	<script src="js/main.js"></script>
 </body>
 
 </html>
