@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dynamic Liquid Glass</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<div class="glass js-liquid">
+		<span>SOS</span>
+	</div>
+	<canvas id="lens"></canvas>
+	<canvas id="noise"></canvas>
+	<svg width="0" height="0">
+		<defs>
+			<filter id="liquidGlass" x="-30%" y="-30%" width="160%" height="160%">
+				<feImage id="lensMap" result="lens"></feImage>
+				<feImage id="noiseMap" result="noise"></feImage>
+				<feGaussianBlur in="noise" stdDeviation="2" result="softNoise"></feGaussianBlur>
+				<feDisplacementMap in="SourceGraphic" in2="lens" scale="160" xChannelSelector="R" yChannelSelector="G" result="lensDistort"></feDisplacementMap>
+				<feDisplacementMap in="SourceGraphic" in2="lens" scale="42" xChannelSelector="R" yChannelSelector="G" result="lensDistort"></feDisplacementMap>
+			</filter>
+		</defs>
+	</svg>
+	<script src="js/main.js"></script>
+</body>
+
+</html>

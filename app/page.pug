@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Dynamic Liquid Glass
+    link(rel="stylesheet", href="css/style.css")
+
+  body
+
+
+    .glass.js-liquid
+      span SOS
+
+    canvas#lens
+    canvas#noise
+
+    svg(width="0" height="0")
+      	defs
+			filter#liquidGlass(
+				x="-30%"
+				y="-30%"
+				width="160%"
+				height="160%"
+			)
+
+			feImage#lensMap(result="lens")
+
+			feImage#noiseMap(result="noise")
+
+			feGaussianBlur(in="noise" stdDeviation="2" result="softNoise")
+
+			feDisplacementMap(
+				in="SourceGraphic"
+				in2="lens"
+				scale="160"
+				xChannelSelector="R"
+				yChannelSelector="G"
+				result="lensDistort"
+			)
+
+			feDisplacementMap(
+				in="SourceGraphic"
+				in2="lens"
+				scale="42"
+				xChannelSelector="R"
+				yChannelSelector="G"
+				result="lensDistort"
+			)
+    
+	script(src="js/main.js")
